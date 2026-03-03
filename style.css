@@ -1,0 +1,124 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+:root {
+    --main-blue: #0052ff;
+    --text-black: #111111;
+    --text-gray: #666666;
+    --bg-white: #ffffff;
+    --card-bg: #f8f9fa;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
+
+body { overflow: hidden; background-color: var(--bg-white); color: var(--text-black); }
+
+/* 네비게이션 */
+#nav {
+    position: fixed; top: 50%; right: 40px; transform: translateY(-50%); z-index: 100;
+}
+#nav ul { list-style: none; }
+#nav li {
+    font-size: 0.8rem; color: #ccc; margin-bottom: 20px; cursor: pointer;
+    transition: 0.3s; text-align: right; letter-spacing: 1px;
+}
+#nav li.active { color: var(--main-blue); font-weight: 700; transform: scale(1.1); }
+
+/* 컨테이너 슬라이드 애니메이션 */
+#container {
+    transition: all 0.7s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+.slide {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 10%;
+}
+
+.content { width: 100%; max-width: 1100px; }
+
+.top-label { color: var(--main-blue); font-weight: 700; font-size: 1rem; margin-bottom: 10px; }
+.highlight { color: var(--main-blue); }
+
+h1 { font-size: 3.5rem; line-height: 1.3; font-weight: 800; margin-bottom: 20px; }
+h3 { font-size: 2.5rem; font-weight: 700; margin-bottom: 40px; letter-spacing: -1px; }
+
+.step-title { color: #ddd; font-size: 1.2rem; font-weight: 700; margin-bottom: 5px; }
+.desc { font-size: 1.3rem; color: var(--text-gray); }
+
+/* 카드 섹션 */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.card {
+    background: var(--card-bg); padding: 40px; border-radius: 15px;
+    transition: 0.3s;
+}
+.card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+.card h4 { font-size: 1.5rem; margin-bottom: 15px; color: var(--main-blue); }
+.card p { color: var(--text-gray); line-height: 1.6; }
+.card.colored { background: #eef4ff; border: 1px solid #d0e0ff; }
+
+/* 3단계 박스 */
+.focus-box {
+    background: var(--text-black); color: white; padding: 50px;
+    border-radius: 20px; line-height: 2.5; font-size: 1.2rem;
+}
+
+/* 로드맵 */
+.timeline { border-left: 3px solid var(--main-blue); padding-left: 30px; }
+.time-item { font-size: 1.4rem; margin-bottom: 30px; color: var(--text-gray); }
+.time-item strong { color: var(--text-black); margin-right: 15px; }
+
+/* 화살표 안내 */
+.arrow-down { margin-top: 50px; font-weight: 600; color: #bbb; animation: bounce 2s infinite; }
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} }
+
+/* 로드맵 테이블 스타일 */
+.roadmap-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-top: 2px solid var(--text-black);
+    margin-top: 20px;
+}
+
+.table-header, .table-row {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr 2fr 1.5fr;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.table-header {
+    background: #fcfcfc;
+    font-weight: 700;
+    padding: 15px 0;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+.table-row {
+    padding: 25px 0;
+}
+
+.col { padding: 0 15px; text-align: center; }
+.col-title { font-weight: 700; font-size: 1.1rem; padding-left: 20px; border-right: 1px solid #eee; }
+.col-task { font-size: 0.95rem; color: #aaa; text-align: center; }
+
+/* 진행 상태 강조 */
+.col-task.active { color: var(--main-blue); font-weight: 600; }
+.col-task.done { color: var(--text-black); font-weight: 600; }
+.col-task.launch { 
+    color: #white; 
+    background: var(--main-blue); 
+    color: white; 
+    padding: 10px; 
+    border-radius: 8px; 
+    font-weight: 700;
+}
+
+.roadmap-note {
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: var(--main-blue);
+    font-weight: 600;
+    text-align: right;
+}
