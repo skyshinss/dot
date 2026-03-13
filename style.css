@@ -2,11 +2,11 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css');
 
 :root {
-    --primary: #2E75B6;      /* 로고의 메인 블루 */
+    --primary: #2E75B6;       /* 로고의 메인 블루 */
     --primary-light: #60a5fa;
-    --accent: #f97316;       /* 로고의 오렌지 포인트 */
-    --success: #22c55e;      /* 로고의 그린 포인트 */
-    --bg-dark: #0f172a;      /* 네이비 배경 */
+    --accent: #f97316;        /* 로고의 오렌지 포인트 */
+    --success: #22c55e;       /* 로고의 그린 포인트 */
+    --bg-dark: #0f172a;       /* 네이비 배경 */
     --bg-deep: #020617;
     --text-white: #ffffff;
     --text-gray: #cbd5e1;
@@ -232,7 +232,82 @@ h2 {
     color: var(--bg-dark);
 }
 
-/* 8. 맨 위로 가기 버튼 & 애니메이션 */
+/* 8. 찾아오는 길 (Contact) - 간격 축소 버전 */
+.section.contact {
+    background: #fbfbfc; /* 연한 배경 */
+    color: #0f172a;
+    padding-top: 40px !important; /* 상단만 간격 좁힘 */
+    padding-bottom: 80px;
+}
+
+.section.contact .section-title {
+    margin-bottom: 30px !important;
+}
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.map-container {
+    width: 100%;
+    height: 350px;
+    background: #1e293b;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.info-item h3 {
+    color: var(--primary);
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.info-item p {
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* 9. 푸터 (Footer) */
+.footer {
+    background: var(--bg-deep);
+    padding: 60px 0 30px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-content p {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    line-height: 1.8;
+}
+
+.copyright {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    color: #64748b !important;
+    font-size: 0.8rem !important;
+}
+
+/* 10. 맨 위로 가기 버튼 */
 .back-to-top {
     position: fixed;
     bottom: 40px;
@@ -266,20 +341,7 @@ h2 {
     transform: scale(1.1) rotate(-5deg);
 }
 
-/* 9. 푸터 */
-.footer {
-    text-align: center;
-    padding: 80px 0 40px;
-    background: var(--bg-deep);
-    border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-.footer p {
-    color: #64748b;
-    font-size: 0.9rem;
-}
-
-/* 10. 반응형 레이아웃 */
+/* 11. 반응형 레이아웃 */
 @media (max-width: 768px) {
     .menu-toggle { display: block; color: white; }
     
@@ -300,4 +362,16 @@ h2 {
     
     .btn.outline { margin-left: 0; margin-top: 10px; width: 100%; }
     .btn.primary { width: 100%; }
+
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    .map-container {
+        height: 280px;
+    }
+
+    .section.contact {
+        padding-top: 30px !important;
+    }
 }
