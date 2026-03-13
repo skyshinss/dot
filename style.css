@@ -374,10 +374,10 @@ h2 {
     }
 }
 
-/* 비디오 페이지 전용 스타일 */
+/* 비디오 페이지 전용 스타일 - 최적화 완료 */
 .video-page {
     padding-top: 100px;
-    background: var(--bg-deep); /* 더 깊은 블랙 배경으로 몰입감 증대 */
+    background: var(--bg-deep);
 }
 
 .video-hero {
@@ -398,20 +398,24 @@ h2 {
     overflow: hidden;
     box-shadow: 0 30px 60px rgba(0,0,0,0.5);
     border: 1px solid rgba(255,255,255,0.05);
-    transition: var(--transition);
 }
 
 .video-frame {
     width: 100%;
-    aspect-ratio: 16 / 9; /* 16:9 비율 유지 */
+    /* 고정 비율(aspect-ratio) 대신 유연한 높이 설정을 위해 수정 */
     background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.video-frame iframe, 
+/* iframe 관련 불필요한 설정 제거 및 video 태그 최적화 */
 .video-frame video {
     width: 100%;
-    height: 100%;
-    border: none;
+    height: auto;       /* 영상 비율에 맞춰 높이 자동 조절 (잘림 방지) */
+    max-height: 80vh;   /* 너무 길어지지 않도록 화면 높이의 80%로 제한 */
+    display: block;
+    outline: none;
 }
 
 .video-content {
