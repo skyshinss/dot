@@ -6,7 +6,6 @@
     <title>AI 문제 생성 체험 - DOT EDUTAINMENT</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* AI 데모 페이지 전용 추가 스타일 */
         .demo-container {
             position: relative;
             z-index: 10;
@@ -20,43 +19,50 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
         
-        /* 헤더 로고 이미지 스타일 */
         .logo img {
-            height: 45px; /* 헤더 높이에 맞게 조절 */
+            height: 45px;
             display: block;
-            transition: 0.3s;
         }
 
         .input-group { margin-bottom: 25px; }
         
         .input-box {
             width: 100%;
-            height: 100px;
+            height: 80px;
             background: rgba(15, 23, 42, 0.8);
             border: 1px solid #3b82f6;
             border-radius: 12px;
-            color: #cbd5e1;
+            color: #60a5fa;
             padding: 20px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
             resize: none;
             outline: none;
-            cursor: default; /* 입력 불가 느낌 */
+            cursor: default;
+            text-align: center;
         }
 
         .result-box {
             margin-top: 30px;
-            background: #f8fafc;
+            background: #ffffff;
             color: #1e293b;
-            padding: 25px;
-            border-radius: 12px;
-            min-height: 100px;
-            line-height: 1.8;
-            border-left: 5px solid #3b82f6;
+            padding: 30px;
+            border-radius: 15px;
             display: none;
-            text-align: center;
+            border-left: 8px solid #3b82f6;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
         
         .result-box.active { display: block; animation: fadeInUp 0.5s ease; }
+
+        .answer-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #cbd5e1;
+        }
+
+        .solution { color: #64748b; font-style: italic; margin-bottom: 10px; }
+        .final-answer { font-size: 1.5rem; font-weight: 800; color: #2E75B6; }
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -68,10 +74,14 @@
             color: white;
             border: none;
             cursor: pointer;
-            transition: 0.3s;
+            width: 100%;
+            font-size: 1.1rem;
+            padding: 18px;
             font-weight: 700;
+            border-radius: 12px;
+            transition: 0.3s;
         }
-        .btn.primary:hover { background: #2563eb; transform: translateY(-2px); }
+        .btn.primary:hover { background: #2563eb; transform: scale(1.02); }
     </style>
 </head>
 <body>
@@ -79,13 +89,11 @@
 <header class="header">
     <div class="container nav">
         <div class="logo">
-            <a href="index.html"><img src="logo.jpg" alt="DOT EDUTAINMENT"></a>
+            <a href="index.html"><img src="로고.jpg" alt="DOT EDUTAINMENT"></a>
         </div>
-        <div class="menu-toggle" id="menuToggle">☰</div>
         <nav id="navMenu">
             <a href="index.html">Home</a>
             <a href="index.html#about">회사소개</a>
-            <a href="index.html#services">서비스</a>
             <a href="mailto:contact@dotedu.kr" class="btn-contact">고객센터</a>
         </nav>
     </div>
@@ -94,25 +102,20 @@
 <canvas id="network" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></canvas>
 
 <div class="demo-container">
-    <div class="center">
+    <div class="center" style="text-align: center;">
         <h2 style="margin-bottom: 10px; color: #fff;">AI 문제 생성 체험</h2>
-        <p style="color: #cbd5e1; margin-bottom: 30px;">기본 문형을 바탕으로 AI 엔진이 유사 문항을 실시간 생성합니다.</p>
+        <p style="color: #cbd5e1; margin-bottom: 30px;">AI가 문형을 분석하여 유사 문항과 정답을 실시간으로 도출합니다.</p>
     </div>
 
     <div class="input-group">
-        <textarea id="questionInput" class="input-box" readonly>고정 문제: 3x + 5y를 간단히 하시오.</textarea>
+        <textarea id="questionInput" class="input-box" readonly>기본 문형: 3x + 4x를 간단히 하시오.</textarea>
     </div>
 
-    <div class="center">
-        <button class="btn primary" onclick="generateProblem()" style="width: 100%; font-size: 1.1rem; padding: 15px;">AI 유사 문제 생성하기</button>
-    </div>
+    <button class="btn primary" onclick="generateProblem()">AI 유사 문제 및 정답 생성</button>
 
-    <div id="resultBox" class="result-box"></div>
+    <div id="resultBox" class="result-box">
+        </div>
 </div>
-
-<button id="backToTop" class="back-to-top">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
-</button>
 
 <script src="script.js"></script>
 
@@ -120,21 +123,26 @@
     function generateProblem() {
         const result = document.getElementById("resultBox");
 
-        // 1. 숫자 랜덤 생성 (2~25 사이)
-        const a = Math.floor(Math.random() * 24) + 2;
-        const b = Math.floor(Math.random() * 24) + 2;
+        // 1. 랜덤 숫자 생성 (2~30 사이)
+        const n1 = Math.floor(Math.random() * 29) + 2;
+        const n2 = Math.floor(Math.random() * 29) + 2;
+        const sum = n1 + n2;
 
-        // 2. 결과 텍스트 구성
-        const generatedQuestion = `${a}x + ${b}y를 간단히 하시오.`;
-
-        // 3. 화면 출력
+        // 2. 결과 화면 구성
         result.innerHTML = `
-            <div style="font-weight:bold; color:#3b82f6; margin-bottom:15px; font-size:0.9rem;">✨ AI 데이터 분석 및 문항 생성 결과</div>
-            <div style="font-size: 1.4rem; font-weight: 800; background: #e2e8f0; padding: 20px; border-radius: 10px; color: #0f172a; display: inline-block; min-width: 80%;">
-                ${generatedQuestion}
+            <div style="font-weight:bold; color:#3b82f6; margin-bottom:10px;">✨ AI 생성 문제</div>
+            <div style="font-size: 1.4rem; font-weight: 700; margin-bottom: 15px;">
+                ${n1}x + ${n2}x를 간단히 하시오.
             </div>
-            <div style="margin-top: 15px; color: #64748b; font-size: 0.85rem;">
-                수학적 구조 분석을 통해 동일 난이도의 유사 문항을 생성하였습니다.
+
+            <div class="answer-section">
+                <div class="solution">
+                    <strong>[해설]</strong><br>
+                    (${n1} + ${n2})x = ${sum}x
+                </div>
+                <div class="final-answer">
+                    <span style="font-size: 1rem; color: #1e293b;">정답:</span> ${sum}x
+                </div>
             </div>
         `;
         
