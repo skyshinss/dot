@@ -456,3 +456,64 @@ h2 {
         font-size: 2.2rem;
     }
 }
+
+/* 네이버 지도 스타일링 */
+.map-container {
+    width: 100%;
+    height: 600px;
+    background: #f1f5f9;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.naver-map-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-decoration: none;
+}
+
+.map-static-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.map-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: background 0.3s;
+}
+
+.map-btn {
+    background: #03C75A; /* 네이버 녹색 */
+    color: white;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.naver-map-link:hover .map-static-img {
+    transform: scale(1.05);
+}
+
+.naver-map-link:hover .map-overlay {
+    background: rgba(15, 23, 42, 0.1);
+}
+
+.naver-map-link:hover .map-btn {
+    transform: translateY(-5px);
+    background: #02b350;
+}
