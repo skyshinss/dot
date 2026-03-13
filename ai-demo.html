@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 문제 생성 체험 - DOT EDUTAINMENT</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* AI 데모 페이지 전용 추가 스타일 */
+        .demo-container {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 120px auto 60px; /* 헤더 높이 고려 */
+            padding: 40px;
+            background: rgba(30, 41, 59, 0.7); /* 반투명 카드 */
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        
+        .input-group { margin-bottom: 25px; }
+        
+        .input-box {
+            width: 100%;
+            height: 150px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            color: white;
+            padding: 20px;
+            font-size: 1rem;
+            resize: none;
+            outline: none;
+            transition: 0.3s;
+        }
+        
+        .input-box:focus {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            border-color: #60a5fa;
+        }
+
+        .result-box {
+            margin-top: 30px;
+            background: #f8fafc; /* 결과창은 가독성을 위해 밝은색 */
+            color: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            min-height: 100px;
+            line-height: 1.8;
+            border-left: 5px solid #3b82f6;
+            display: none; /* 결과가 있을 때만 표시 */
+        }
+        
+        .result-box.active { display: block; animation: fadeInUp 0.5s ease; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container nav">
+        <div class="logo">
+            <a href="index.html"><img src="로고.jpg" alt="DOT EDUTAINMENT" style="height: 45px;"></a>
+        </div>
+        <div class="menu-toggle" id="menuToggle">☰</div>
+        <nav id="navMenu">
+            <a href="index.html">Home</a>
+            <a href="index.html#about">회사소개</a>
+            <a href="index.html#services">서비스</a>
+            <a href="mailto:contact@dotedu.kr" class="btn-contact">고객센터</a>
+        </nav>
+    </div>
+</header>
+
+<canvas id="network" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></canvas>
+
+<div class="demo-container">
+    <div class="center">
+        <h2 style="margin-bottom: 10px; color: #fff;">AI 문제 생성 체험</h2>
+        <p style="color: #cbd5e1; margin-bottom: 30px;">수학 문제를 입력하면 AI가 유사한 새로운 문제를 생성합니다.</p>
+    </div>
+
+    <div class="input-group">
+        <textarea id="questionInput" class="input-box" placeholder="예: 두 자연수 5와 10의 합을 구하시오."></textarea>
+    </div>
+
+    <div class="center">
+        <button class="btn primary" onclick="generateProblem()" style="width: 100%; font-size: 1.1rem; padding: 15px;">AI 문제 생성하기</button>
+    </div>
+
+    <div id="resultBox" class="result-box">
+        </div>
+</div>
+
+<button id="backToTop" class="back-to-top">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<script src="script.js"></script>
+<script>
+    /* 데모 전용 로직 */
+    function generateProblem(){
+        const input = document.getElementById("questionInput").value;
+        const result = document.getElementById("resultBox");
+
+        if(!input){
+            alert("문제를 입력해주세요!");
+            return;
+        }
+
+        // 간단한 변환 로직 (예시)
+        let newProblem = input
+            .replace(/두/g, "세")
+            .replace(/자연수/g, "정수")
+            .replace(/합을/g, "평균을")
+            .replace(/구하시오/g, "구하여라");
+
+        result.innerHTML = `
+            <div style="font-weight:bold; color:#3b82f6; margin-bottom:10px;">[AI 생성 결과]</div>
+            <div>${newProblem}</div>
+        `;
+        
+        result.classList.add("active");
+    }
+</script>
+</body>
+</html>

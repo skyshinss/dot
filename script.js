@@ -1,40 +1,139 @@
-let currentIdx = 0;
-const container = document.getElementById('container');
-const navItems = document.querySelectorAll('#nav li');
-const totalSlides = document.querySelectorAll('.slide').length;
-let isScrolling = false;
+/* 햄버거 메뉴 */
 
-function moveTo(idx) {
-    if (idx < 0 || idx >= totalSlides) return;
-    currentIdx = idx;
-    
-    // 화면 이동
-    container.style.transform = `translateY(-${currentIdx * 100}vh)`;
-    
-    // 메뉴 상태 업데이트
-    navItems.forEach((li, i) => {
-        li.classList.toggle('active', i === currentIdx);
-    });
+const menuToggle=document.getElementById("menuToggle")
+const navMenu=document.getElementById("navMenu")
+
+if(menuToggle){
+
+menuToggle.addEventListener("click",()=>{
+
+navMenu.classList.toggle("active")
+
+})
+
 }
 
-// 휠 스크롤 제어
-window.addEventListener('wheel', (e) => {
-    if (isScrolling) return;
-    
-    isScrolling = true;
-    if (e.deltaY > 0) {
-        moveTo(currentIdx + 1);
+
+/* 네트워크 애니메이션 */
+
+const canvas=document.getElementById("network")
+
+if(canvas){
+
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let particles=[]
+
+for(let i=0;i<80;i++){
+
+particles.push({
+
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+vx:(Math.random()-0.5),
+vy:(Math.random()-0.5)
+
+})
+
+}
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+particles.forEach(p=>{
+
+p.x+=p.vx
+p.y+=p.vy
+
+ctx.beginPath()
+ctx.arc(p.x,p.y,2,0,Math.PI*2)
+ctx.fillStyle="#3b82f6"
+ctx.fill()
+
+particles.forEach(p2=>{
+
+let dx=p.x-p2.x
+let dy=p.y-p2.y
+let dist=Math.sqrt(dx*dx+dy*dy)
+
+if(dist<120){
+
+ctx.beginPath()
+ctx.moveTo(p.x,p.y)
+ctx.lineTo(p2.x,p2.y)
+ctx.strokeStyle="rgba(59,130,246,0.2)"
+ctx.stroke()
+
+}
+
+})
+
+})
+
+requestAnimationFrame(draw)
+
+}
+
+draw()
+
+}
+
+
+/* AI 문제 생성 */
+
+function generateProblem(){
+
+const input=document.getElementById("questionInput").value
+const result=document.getElementById("resultBox")
+
+if(!input){
+
+result.innerHTML="문제를 입력하세요."
+return
+
+}
+
+let newProblem=input
+.replace("두","세")
+.replace("자연수","정수")
+.replace("구하시오","구하여라")
+
+result.innerHTML=
+
+"<b>입력 문제</b><br>"+input+
+"<br><br><b>AI 생성 문제</b><br>"+newProblem
+
+}
+
+/* 기존 코드 끝에 추가 */
+
+const backToTop = document.getElementById("backToTop");
+
+window.addEventListener("scroll", () => {
+    // 스크롤이 400px 이상 내려가면 버튼 노출
+    if (window.pageYOffset > 400) {
+        backToTop.classList.add("show");
     } else {
-        moveTo(currentIdx - 1);
+        backToTop.classList.remove("show");
     }
+});
 
-    setTimeout(() => {
-        isScrolling = false;
-    }, 1000); // 슬라이드 전환 시간 동안 스크롤 중복 방지
-}, { passive: false });
+backToTop.addEventListener("click", () => {
+    // 부드럽게 최상단으로 이동
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});
 
-// 키보드 지원
-window.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowDown') moveTo(currentIdx + 1);
-    if (e.key === 'ArrowUp') moveTo(currentIdx - 1);
+/* 모바일 메뉴 개선: 메뉴 클릭시 닫히게 설정 */
+const navLinks = document.querySelectorAll("#navMenu a");
+navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+        navMenu.classList.remove("active");
+    });
 });
