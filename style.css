@@ -411,7 +411,7 @@ h2 {
 
 /* iframe 관련 불필요한 설정 제거 및 video 태그 최적화 */
 .video-frame video {
-    width: 100%;
+    width: 50%;
     height: auto;       /* 영상 비율에 맞춰 높이 자동 조절 (잘림 방지) */
     max-height: 80vh;   /* 너무 길어지지 않도록 화면 높이의 80%로 제한 */
     display: block;
